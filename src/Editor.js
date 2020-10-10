@@ -5,7 +5,8 @@ export class Editor extends Component {
         super(props);
         this.state = {
             name: "Bob",
-            flavor: "Vanilla"
+            flavor: "Vanilla",
+            twoScoops: false
         };
 
         this.flavors = ["Chocolate", "Double Chocolate", "Triple Chocolate", "Vanilla"];
@@ -14,6 +15,10 @@ export class Editor extends Component {
 
     updateFormValue = (event) => {
         this.setState({ [event.target.name]: event.target.value }, () => this.props.submit(this.state));
+    }
+
+    updateFormValueCheck = (event) => {
+        this.setState({ [event.target.name]: event.target.checked }, () => this.props.submit(this.state));
     }
 
     render() {
@@ -36,6 +41,15 @@ export class Editor extends Component {
                         </label>
                     </div>
                 )}
+           </div>
+
+           <div className="form-group">
+               <div className="form-check">
+                   <input className="form-check-input"
+                        type="checkbox" name="twoScoops" checked={ this.state.twoScoops }
+                        onChange={ this.updateFormValueCheck } />
+                    <label className="form-check-label">Two Scoops</label>
+               </div>
            </div>
         </div>
     }
