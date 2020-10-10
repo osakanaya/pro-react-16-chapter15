@@ -6,7 +6,7 @@ export class Editor extends Component {
         this.state = {
             name: "Bob",
             flavor: "Vanilla",
-            twoScoops: false
+            toppings: ["Strawberries"]
         };
 
         this.flavors = ["Chocolate", "Double Chocolate", "Triple Chocolate", "Vanilla"];
@@ -18,7 +18,16 @@ export class Editor extends Component {
     }
 
     updateFormValueCheck = (event) => {
-        this.setState({ [event.target.name]: event.target.checked }, () => this.props.submit(this.state));
+        event.persist();
+        
+        this.setState(state => {
+            if (event.target.checked) {
+                state.toppings.push(event.target.name);
+            } else {
+                let index = state.toppings.indexOf(event.target.name);
+                state.toppings.splice(index, 1);
+            }
+            }, () => this.props.submit(this.state));
     }
 
     render() {
@@ -29,27 +38,15 @@ export class Editor extends Component {
             </div>
             
             <div className="form-group">
-                <label>Ice Cream Flavors</label>
-                { this.flavors.map(flavor =>
-                    <div className="form-check" key={ flavor }>
-                        <input className="form-check-input"
-                            type="radio" name="flavor" value={ flavor }
-                            checked={ this.state.flavor === flavor }
-                            onChange={ this.updateFormValue } />
-                        <label className="form-check-label">
-                            { flavor }
-                        </label>
+                <label>Ice Cream Toppings</label>
+                { this.toppings.map(top =>
+                    <div className="form-check" key={ top }>
+                        <input className="form-check-input" type="checkbox" name={ top }
+                            value={ top } checked={ this.state.toppings.indexOf(top) > -1 }
+                            onChange={ this.updateFormValueCheck } />
+                        <label className="form-check-label">{ top }</label>
                     </div>
                 )}
-           </div>
-
-           <div className="form-group">
-               <div className="form-check">
-                   <input className="form-check-input"
-                        type="checkbox" name="twoScoops" checked={ this.state.twoScoops }
-                        onChange={ this.updateFormValueCheck } />
-                    <label className="form-check-label">Two Scoops</label>
-               </div>
            </div>
         </div>
     }
