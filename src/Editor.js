@@ -6,13 +6,15 @@ export class Editor extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: "Bob",
-            terms: false
+            name: "",
+            email: "",
+            emailConfirm: ""
         };
 
         this.rules = {
             name: { required: true, minlength: 3, alpha: true },
-            terms: { true: true }
+            email: { required: true, email: true, equals: "emailConfirm" },
+            emailConfirm: { required: true, email: true, equals: "email" }
         };
     }
 
@@ -35,15 +37,18 @@ export class Editor extends Component {
                 </div>
 
                 <div className="form-group">
-                    <div className="form-check">
-                        <input className="form-check-input" type="checkbox" name="terms"
-                            checked={ this.state.terms } onChange={ this.updateFormValueCheck } />
-                        <label chassName="form-check-label">
-                            Agree to terms
-                        </label>
-                    </div>
+                    <label>Email</label>
+                    <input className="form-control" name="email" value={ this.state.email }
+                        onChange={ this.updateFormValue } />
+                    <ValidationMessage field="email" />
                 </div>            
-                <ValidationMessage field="terms" />
+
+                <div className="form-group">
+                    <label>Confirm Email</label>
+                    <input className="form-control" name="emailConfirm" value={ this.state.emailConfirm }
+                        onChange={ this.updateFormValue } />
+                    <ValidationMessage field="emailConfirm" />
+                </div>            
             </FormValidator>
         </div>
     }
