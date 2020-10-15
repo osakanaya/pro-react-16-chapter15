@@ -7,19 +7,21 @@ export class Editor extends Component {
         super(props);
         this.state = {
             name: "Bob",
-            email: "",
-            order: ""
+            terms: false
         };
 
         this.rules = {
             name: { required: true, minlength: 3, alpha: true },
-            email: { required: true, email: true },
-            order: { required: true }
+            terms: { true: true }
         };
     }
 
     updateFormValue = (event) => {
         this.setState({ [event.target.name]: event.target.value});
+    }
+
+    updateFormValueCheck = (event) => {
+        this.setState({ [event.target.name]: event.target.checked });
     }
 
     render() {
@@ -33,18 +35,15 @@ export class Editor extends Component {
                 </div>
 
                 <div className="form-group">
-                    <label>Email</label>
-                    <input className="form-control" name="email" value={ this.state.email }
-                        onChange={ this.updateFormValue } />
+                    <div className="form-check">
+                        <input className="form-check-input" type="checkbox" name="terms"
+                            checked={ this.state.terms } onChange={ this.updateFormValueCheck } />
+                        <label chassName="form-check-label">
+                            Agree to terms
+                        </label>
+                    </div>
                 </div>            
-                <ValidationMessage field="email" />
-
-                <div className="form-group">
-                    <label>Order</label>
-                    <textarea className="form-control" name="order" value={ this.state.order }
-                        onChange={ this.updateFormValue } />
-                </div>            
-                <ValidationMessage field="order" />
+                <ValidationMessage field="terms" />
             </FormValidator>
         </div>
     }
